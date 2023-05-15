@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="public/favicon.png" />
+
+    <!-- Local CSS -->
+    <link rel="stylesheet" href="public/stylesheets/style.css" />
+    <link rel="stylesheet" href="public/stylesheets/summary.css" />
+    <link rel="stylesheet" href="public/stylesheets/portfolio.css" />
+    <link rel="stylesheet" href="public/stylesheets/contacts.css" />
+    <link rel="stylesheet" href="public/stylesheets/contact-form.css" />
+    <link rel="stylesheet" href="public/stylesheets/modal.css" />
+
+    <!-- Local Scripts -->
+    <script src="public/scripts/modal.js" defer></script>
+    <script src="public/scripts/contactme.js" defer></script>
+    <script src="public/scripts/navbar.js" defer></script>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P36VN14BX8"></script>
+    <script src="public/scripts/analytics.js"></script>
+
+    <!-- Google Fonts CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icon Font -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+    <!-- MISC-->
+    <title>HugoBde</title>
+</head>
+
+<body>
+    <!-- NAV BAR -->
+    <nav>
+        <div id="navbar">
+            <a href="#">
+                <h2>hugobde.dev</h2>
+            </a>
+            <img id="hamburger-menu" src="images/hamburger.svg" />
+            <div id="navbar-links">
+                <a href="#portfolio">
+                    Projects
+                </a>
+                <a href="#contact">
+                    Contacts
+                </a>
+                <!-- <a href="#">
+                    Blog
+                </a> -->
+            </div>
+        </div>
+    </nav>
+
+    <div id="responsive-links" class="hidden">
+        <a href="#portfolio">
+            Projects
+        </a>
+        <a href="#contact">
+            Contacts
+        </a>
+        <!-- <a href="#">
+            Blog
+        </a> -->
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <div id="summary">
+            <h1 class="section-header">Who am I?</h1>
+            <p>
+                I am a Software engineering student at the University of Technology, Sydney. I am currently doing
+                research in Machine Learning and Natural Language Processing, and make a living developing for
+                high-performance high-availability systems.<br>If you would like to get in touch, please
+                <a href="#contact"><b>contact me</b></a>.
+            </p>
+        </div>
+        <div id="portfolio">
+            <h1 class="section-header">Projects</h1>
+            <div class="portfolio-entry">
+                <a href="https://github.com/HugoBde/chip8-emulator" target="_blank">
+                    <h2 class="portfolio-name">CHIP-8 Emulator</h2>
+                    <h5 class="portfolio-description">CHIP-8 emulator made in Rust</h5>
+                    <div class="portfolio-gifs">
+                        <figure>
+                            <img src="images/portfolio/chip-8-emulator/test_chip8.gif" />
+                            <figcaption>Fig. 1 corax89's CHIP-8 test ROM</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="images/portfolio/chip-8-emulator/zero.gif" />
+                            <figcaption>Fig. 2 zeroShadow's demo ROM</figcaption>
+                        </figure>
+                    </div>
+                </a>
+            </div>
+            <div class="portfolio-entry">
+                <a href="https://github.com/HugoBde/owert" target="_blank">
+                    <h2 class="portfolio-name">Owert</h2>
+                    <h5 class="portfolio-description">Ray tracer made in Go based on <a
+                            href="https://raytracing.github.io/books/RayTracingInOneWeekend.html"><u>Peter Shirley's
+                                book</u></a></h5>
+                    <div class="portfolio-gifs">
+                        <figure>
+                            <img src="images/portfolio/owert/live_render.gif" />
+                            <figcaption>
+                                Fig. 1 Live rendering of a scene with SDL2
+                            </figcaption>
+                        </figure>
+                    </div>
+                </a>
+            </div>
+            <div class="portfolio-entry">
+                <a class="portfolio-entry" href="https://github.com/HugoBde/yossi" target="_blank">
+                    <h2 class="portfolio-name">Yossi</h2>
+                    <h5 class="portfolio-description">Work in progress Gameboy Advance Emulator in C++</h5>
+                </a>
+            </div>
+        </div>
+        <div id="education">
+            <h1 class="section-header">Education</h1>
+            <ul>
+                <li>
+                    <h2>Bachelor of Engineering (Honours)</h2>
+                    <p>University of Technology Sydney<br>Majoring in <b>Software Engineering</b><br>Submajoring in
+                        <b>Real-time Systems</b><br>Graduating in <b>February 2024</b>
+                    </p>
+                </li>
+            </ul>
+        </div>
+        <div id="contact">
+            <h1 class="section-header">Contact</h1>
+            <div id="contact-list">
+                <div>
+                    <i class="bi bi-github"></i>
+                    <a href="https://github.com/HugoBde?tab=repositories">
+                        GitHub
+                    </a>
+                </div>
+                <div>
+                    <i class="bi bi-linkedin"></i>
+                    <a href="https://www.linkedin.com/in/bouderliqueh/">
+                        LinkedIn
+                    </a>
+                </div>
+                <div>
+                    <i class="bi bi-envelope-fill"></i>
+                    <a style="cursor: pointer;" id="email_btn">
+                        Email Me
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Email Contact Form -->
+    <!-- <form id="contact-form">
+        <div id="contact-header">
+            <h1 id="title">Message me</h1>
+            <img id="open-close-button" src="/images/up.svg" />
+        </div>
+        <input id="name" name="name" type="text" placeholder="Name" required />
+        <input id="phone" name="phone" type="tel" placeholder="Phone number (optional)" />
+        <input id="email" name="email" type="email" placeholder="Email address" required />
+        <textarea id="message" name="message" placeholder="Your message" required></textarea>
+        <button id="submit" type="submit">Send</button>
+    </form> -->
+
+    <!-- WIP Modal -->
+    <div id="modal">
+        <div id="modalCard">
+            <div id="modalBody">
+            <!-- <figure>
+                <img id="wip" src="images/hardhat.png">
+                <figcaption>
+                    Fig. 1 Personal protective equipment
+                </figcaption>
+            </figure> -->
+            <h1>Work in progress...</h1>
+            <p>
+                Website is under construction<br>
+                <span onclick="closeModal()" style="cursor: pointer; text-decoration: underline;">Access anyway</span><br>
+            </p>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
