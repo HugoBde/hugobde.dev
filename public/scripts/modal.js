@@ -8,7 +8,7 @@ function closeModal() {
 }
 
 function showModal() {
-    if (document.cookie === "alreadyvisited") return;
+    if (document.cookie.includes("alreadyvisited")) return;
     modal.style.display = "flex";
     modal.classList.add("modalFadeIn");
     setTimeout(() => modal.classList.remove("modalFadeIn"), 750);
