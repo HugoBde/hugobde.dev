@@ -1,4 +1,23 @@
-const super_secret_email_address = "WW05MVpHVnliR2x4ZFdWb1FHZHRZV2xzTG1OdmJRPT0="
-const email_btn                  = document.getElementById("email_btn");
+const contact_form = document.getElementById("contact-form");
+const open_close_btn = document.getElementById("open-close-button");
+const contact_header = document.getElementById("contact-header");
 
-email_btn.href = `mailto: ${atob(atob(super_secret_email_address))}?subject=Job Opportunity&body=Hello Hugo.%0d%0a%0d%0aI am pleased to let you know that we have a job opportunity for you, with a base salary of $1,000,000 per year.%0d%0a%0d%0aPlease reach back to us if you are interested.%0d%0a%0d%0aKind Regards.`;
+const DOWN_POSITION = "-255px";
+const UP_POSITION = "15px";
+
+const ROTATED_UP = "rotate(0)";
+const ROTATED_DOWN = "rotate(0.5turn)";
+
+let form_is_opened = false;
+
+function toggle_form() {
+    contact_form.style.bottom = form_is_opened ? DOWN_POSITION : UP_POSITION;
+    open_close_btn.style.transform = form_is_opened ? ROTATED_UP : ROTATED_DOWN;
+    form_is_opened = ~form_is_opened;
+}
+
+function submit_form() {
+
+}
+
+contact_form.style.bottom = DOWN_POSITION;
