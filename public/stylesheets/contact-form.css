@@ -55,6 +55,12 @@
     box-shadow: 0 0 5px black;
 }
 
+.sending {
+    background-color: black !important; 
+    color: white;
+}
+
+
 @media screen and (max-width: 600px) {
     #contact-form {
         z-index: unset;

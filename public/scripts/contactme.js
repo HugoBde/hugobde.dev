@@ -1,6 +1,7 @@
 const contact_form = document.getElementById("contact-form");
 const open_close_btn = document.getElementById("open-close-button");
 const contact_header = document.getElementById("contact-header");
+const submit_btn = document.getElementById("submit");
 
 const DOWN_POSITION = "-255px";
 const UP_POSITION = "15px";
@@ -16,10 +17,16 @@ function toggle_form() {
     form_is_opened = ~form_is_opened;
 }
 
-function submit_form(event) {
+async function submit_form(event) {
     /* Make sure the default Form submit doesn't go through */
     event.preventDefault(); 
+   
+    submit_btn.classList.add("sending"); 
     
+    setTimeout(() => {
+        submit_btn.innerHTML = "Sending...";
+    }, 200); 
+
     /* Grab the form data using FormData */
     const form_data = new FormData(contact_form);
 
@@ -42,7 +49,14 @@ function submit_form(event) {
         },
         body: url_encoded_data
     });
-    fetch(req); 
+    let response = await fetch(req);
+    let outcome = response.ok ? "Sent" : "An error occured";
+
+    submit_btn.classList.remove("sending");
+    
+    setTimeout(() => {
+        submit_btn.innerHTML = outcome;
+    }, 200);
 }
 
 contact_form.style.bottom = DOWN_POSITION;
