@@ -27,6 +27,7 @@ function submit_form(event) {
     let form_pairs = []; 
     for (let [name, value] of form_data)
     {
+        if (value ==="") continue;
         form_pairs.push(`${encodeURIComponent(name)}=${encodeURIComponent(value)}`);
     }
     
@@ -36,6 +37,9 @@ function submit_form(event) {
     /* Send data */
     let req = new Request("https://hugobde.dev/contact_form", {
         method: "POST",
+        headers: {
+            Content-Type: "application/x-www-form-urlencoded"
+        },
         body: url_encoded_data
     });
     fetch(req); 
