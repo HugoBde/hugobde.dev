@@ -62,10 +62,18 @@ async function submit_form(event) {
     setTimeout(() => {
         submit_btn.innerHTML = outcome;
     }, 250);
+
+    setTimeout(() => {
+        submit_btn.style.color = "white";
+    }, 4500);
     
     setTimeout(() => {
         submit_btn.innerHTML = "Send message";
     }, 5000);
+
+    setTimeout(() => {
+        submit_btn.style.color = "black";
+    }, 5500);
 }
 
 contact_form.style.bottom = DOWN_POSITION;
