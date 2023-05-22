@@ -38,7 +38,7 @@ function submit_form(event) {
     let req = new Request("https://hugobde.dev/contact_form", {
         method: "POST",
         headers: {
-            Content-Type: "application/x-www-form-urlencoded"
+            "Content-Type": "application/x-www-form-urlencoded"
         },
         body: url_encoded_data
     });
