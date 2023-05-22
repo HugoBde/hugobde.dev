@@ -51,12 +51,21 @@ async function submit_form(event) {
     });
     let response = await fetch(req);
     let outcome = response.ok ? "Sent" : "An error occured";
+    
+    if (response.ok) 
+    {
+        contact_form.reset();
+    }
 
     submit_btn.classList.remove("sending");
     
     setTimeout(() => {
         submit_btn.innerHTML = outcome;
     }, 200);
+    
+    setTimeout(() => {
+        submit_btn.innerHTML = "Send";
+    }, 5000);
 }
 
 contact_form.style.bottom = DOWN_POSITION;
