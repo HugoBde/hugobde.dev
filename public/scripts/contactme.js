@@ -50,7 +50,7 @@ async function submit_form(event) {
         body: url_encoded_data
     });
     let response = await fetch(req);
-    let outcome = response.ok ? "Sent" : "An error occured";
+    let outcome = response.ok ? "Sent!" : "An error occured";
     
     if (response.ok) 
     {
@@ -64,7 +64,7 @@ async function submit_form(event) {
     }, 200);
     
     setTimeout(() => {
-        submit_btn.innerHTML = "Send";
+        submit_btn.innerHTML = "Send message";
     }, 5000);
 }
 
