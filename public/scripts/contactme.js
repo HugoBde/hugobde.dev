@@ -25,7 +25,7 @@ async function submit_form(event) {
     
     setTimeout(() => {
         submit_btn.innerHTML = "Sending...";
-    }, 200); 
+    }, 250); 
 
     /* Grab the form data using FormData */
     const form_data = new FormData(contact_form);
@@ -61,7 +61,7 @@ async function submit_form(event) {
     
     setTimeout(() => {
         submit_btn.innerHTML = outcome;
-    }, 200);
+    }, 250);
     
     setTimeout(() => {
         submit_btn.innerHTML = "Send message";
