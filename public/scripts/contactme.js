@@ -16,8 +16,30 @@ function toggle_form() {
     form_is_opened = ~form_is_opened;
 }
 
-function submit_form() {
+function submit_form(event) {
+    /* Make sure the default Form submit doesn't go through */
+    event.preventDefault(); 
+    
+    /* Grab the form data using FormData */
+    const form_data = new FormData(contact_form);
 
+    /* Build our own URL encoded request body based on the form content */
+    let form_pairs = []; 
+    for (let [name, value] of form_data)
+    {
+        form_pairs.push(`${encodeURIComponent(name)}=${encodeURIComponent(value)}`);
+    }
+    
+    /* URL encode our data */
+    let url_encoded_data = form_pairs.join("&").replace(/%20/g, "+");
+
+    /* Send data */
+    let req = new Request("https://hugobde.dev/contact_form", {
+        method: "POST",
+        body: url_encoded_data
+    });
+    fetch(req); 
 }
 
 contact_form.style.bottom = DOWN_POSITION;
+contact_form.addEventListener("submit", submit_form);
