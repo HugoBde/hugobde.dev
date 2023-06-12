@@ -5,5 +5,4 @@ COPY images ./images
 COPY public ./public
 WORKDIR /etc/nginx
 COPY nginx.conf ./
-WORKDIR /etc/ssl
-COPY hugobde.dev.crt hugobde.dev.key ./
+EXPOSE 443
