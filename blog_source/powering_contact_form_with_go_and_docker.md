@@ -34,7 +34,7 @@ Next, let's add a library to your project: `godotenv` which will enable us to us
 $ go get github.com/joho/godotenv
 ```
 Now, let's create our `.env` file. If you are thinking of showing this project off on GitHub, make sure you add the `.env` file to your `.gitignore` so that you don't accidentally share your credentials with the whole world. Here's what the file should look like for the moment:
-```
+```ini
 PORT=3000
 ```
 We'll only specify which port to listen to for the moment as an example.
@@ -72,8 +72,8 @@ You can compile the code to make sure everything is fine, although it doesn't do
 ### Sending an email
 This article will focus on sending an email using **Gmail**. Google requires app have an **"application password"** to connect to our email account. A guide on how to obtain an application password for your own app can be found [here](https://support.google.com/accounts/answer/185833?hl=en).
 
-Once you have acquired your oh-so-precious application password, time to a few variables to our `.env` file:
-```
+Once you have acquired your *oh-so-precious* application password, time to a few variables to our `.env` file:
+```ini
 AUTH_USERNAME=<your Gmail address associated with the app password>
 APPLICATION_PASSWORD=<your app password>
 AUTH_SERVER=smtp.gmail.com
@@ -138,7 +138,7 @@ func main() {
     // Route handler to the path of your choice
     http.HandleFunc("/", requestHandler)
 
-	log.Fatal(http.ListenAndServe(":"+port_num, nil))
+    log.Fatal(http.ListenAndServe(":"+port_num, nil))
 }
 ```
 

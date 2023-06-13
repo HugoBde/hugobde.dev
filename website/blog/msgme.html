@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/public/favicon.png" />
+
+    <!-- Local CSS -->
+    <link rel="stylesheet" href="/public/stylesheets/style.css" />
+    <link rel="stylesheet" href="/public/stylesheets/blog.css" />
+
+    <!-- Local Scripts -->
+    <script src="/public/scripts/blog.js" defer></script>
+
+    <!-- Google Fonts CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icon Font -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="/public/stylesheets/hljs-theme.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/go.min.js"></script>
+
+    <!-- MISC-->
+    <title>HugoBde - Blog</title>
+    <meta name="description" content="My blog about all things programming, DevOps">
+</head>
+
+<body>
+    <!-- NAV BAR -->
+    <nav>
+        <div id="navbar">
+            <a href="/">
+                <h2>hugobde.dev</h2>
+            </a>
+            <img id="hamburger-menu" src="images/hamburger.svg" />
+            <div id="navbar-links">
+                <a href="#portfolio">
+                    Projects
+                </a>
+                <a href="#contact">
+                    Contacts
+                </a>
+                <a href="/blog">
+                    Blog
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="responsive-links" class="hidden">
+        <a href="#portfolio">
+            Projects
+        </a>
+        <a href="#contact">
+            Contacts
+        </a>
+        <a href="/blog">
+            Blog
+        </a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <div><h1>Powering a contact form with Go and Docker</h1>
+<h2>Intro</h2>
+<p>The first version of my website was originally published using GitHub pages. While it was a convenient way of creating a simple portfolio website, I quickly felt the need for additional features. The most important requirement was without a doubt providing a simple way to reach out to me to share an idea or enquire about something.</p>
+<p>The simplest solution would have been to use a <code>mailto:</code> link, but I was not comfortable with the idea of having my email address out there, waiting to be scraped by a web crawler. At the time, I eventually managed to come up with a cloud based solution using AWS API Gateway and AWS Simple Email Service. However, after my AWS Free Tier subscription expired, I was forced to take down my beloved contact form.</p>
+<p>Recently, I decided to break the bank and have my website hosted a dedicated server, meaning that I now had access to a backend which could safely send enquiries to my email inbox. The present blog post describes how I implemented this solution.</p>
+<h3>Original setup</h3>
+<p>With my website consisting of a few static files at the time of hosting it, I chose to use Nginx as a simple drop-in solution. With very little configuration to do, I was up and running in no time, and had the routing requests to future backend services using the reverse-proxy functionality.</p>
+<p><img src="https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png" alt="Original set up diagram" /></p>
+<h3>The plan</h3>
+<p>Below you can see a simplistic representation of the system we will be implementing. Nginx receives POST requests to /contact_form and proxies them to an arbitrary port on which my microservice will be listening.</p>
+<p><img src="https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png" alt="msgme flowdiagram" /></p>
+<p>For this project, I chose to use Go to implement my service because its standard library has plenty of support for network protocols - specifically the Simple Mail Transfer Protocol - and HTTP(S) server functionalities. In the end, we will be containerising our microservice to ~flex our DevOps skills~ simplify deployment, using Docker.</p>
+<h2>Implementation</h2>
+<h3>Set up</h3>
+<p>Enough talking, time to get coding! Let's create our project:</p>
+<pre><code class="language-sh">$ mkdir msmge_uservice
+$ cd msgme_uservice
+$ go mod init &lt;module path&gt;
+</code></pre>
+<p>Here, I called my project <code>msgme_uservice</code> but you can pick any name. Also note that if you are creating your project in the GOPATH, you can omit the module path. Otherwise, you probably will want to use the address of the repository storing your module for good measure.</p>
+<p>Next, let's add a library to your project: <code>godotenv</code> which will enable us to use a <code>.env</code> file to store our credentials and other stuff.</p>
+<pre><code class="language-sh">$ go get github.com/joho/godotenv
+</code></pre>
+<p>Now, let's create our <code>.env</code> file. If you are thinking of showing this project off on GitHub, make sure you add the <code>.env</code> file to your <code>.gitignore</code> so that you don't accidentally share your credentials with the whole world. Here's what the file should look like for the moment:</p>
+<pre><code class="language-ini">PORT=3000
+</code></pre>
+<p>We'll only specify which port to listen to for the moment as an example.</p>
+<p>Finally, create a <strong>Go</strong> file in your favourite text editor or IDE and add some boilerplate code:</p>
+<pre><code class="language-go">//msgme.go
+package main
+
+import (
+	&quot;log&quot;
+	&quot;net/http&quot;
+	&quot;os&quot;
+
+	&quot;github.com/joho/godotenv&quot;
+)
+
+func main() {
+	if err := godotenv.Load(); err != nil {
+		log.Fatalf(&quot;Failed to load .env file: %s&quot;, err)
+	}
+
+	var valid bool
+	var port_num string
+
+	if port_num, valid = os.LookupEnv(&quot;PORT&quot;); !valid {
+		log.Fatal(&quot;Missing PORT environment variable&quot;)
+	}
+
+	log.Fatal(http.ListenAndServe(&quot;:&quot;+port_num, nil))
+}
+</code></pre>
+<p>You can compile the code to make sure everything is fine, although it doesn't do much yet.</p>
+<h3>Sending an email</h3>
+<p>This article will focus on sending an email using <strong>Gmail</strong>. Google requires app have an <strong>&quot;application password&quot;</strong> to connect to our email account. A guide on how to obtain an application password for your own app can be found <a href="https://support.google.com/accounts/answer/185833?hl=en">here</a>.</p>
+<p>Once you have acquired your <em>oh-so-precious</em> application password, time to a few variables to our <code>.env</code> file:</p>
+<pre><code class="language-ini">AUTH_USERNAME=&lt;your Gmail address associated with the app password&gt;
+APPLICATION_PASSWORD=&lt;your app password&gt;
+AUTH_SERVER=smtp.gmail.com
+SENDER=&lt;the sending email address&gt;
+RECIPIENT=&lt;the email address to send the message to&gt;
+SENDING_SERVER=smtp.gmail.com:587
+</code></pre>
+<p>Note that <code>AUTH_USERNAME</code> and <code>SENDER</code> will be the same in all use cases from what I know, but I separated them just in case.</p>
+<p>Now, let's create a function to handle our request. The method we will use to send emails using the SMTP implementation from the Go standard library requires us to create an <code>Auth</code> object. We can avoid creating a new object for every request by taking advantage of Go's <strong>function closures</strong> as below:</p>
+<pre><code class="language-go">//msgme.go
+
+//...
+
+import (
+    &quot;log&quot;
+    &quot;net/http&quot;
+    &quot;net/smtp&quot;  // Add the net/smtp package
+    &quot;os&quot;
+
+    &quot;github.com/joho/godotenv&quot;
+)
+
+// ...
+
+func generateRequestHandler() func(http.ResponseWriter, *http.Request) {
+    var valid bool
+
+    // Environment variables
+    var app_pwd string
+    var username string
+    var auth_server string
+    var sender string
+    var recipient string
+    var sending_server string
+
+    // Read environment variables
+    if app_pwd, valid = os.LookupEnv(&quot;APPLICATION_PASSWORD&quot;); !valid {
+        log.Fatal(&quot;APPLICATION_PASSWORD environment variable not set&quot;)
+    }
+
+    // Repeat for all the other environment variables above 
+
+    // Create our Auth object. The first parameter &quot;identity&quot; can be omitted
+    auth := smtp.PlainAuth(&quot;&quot;, username, app_pwd, auth_server)
+
+    return func (w http.ResponseWriter, r *http.Request) {
+        // This function will capture the variables in genereateRequestHandler
+    }
+}
+
+// ...
+
+func main() {
+
+    // ...
+
+    // Create a handler using our closure generator
+    requestHandler := generateRequestHandler()
+
+    // Route handler to the path of your choice
+    http.HandleFunc(&quot;/&quot;, requestHandler)
+
+    log.Fatal(http.ListenAndServe(&quot;:&quot;+port_num, nil))
+}
+</code></pre>
+<p>Now, let's focus on the request handling code itself. For this example, the request handler is called when submitting a form with 4 fields, <code>contact_name</code>, <code>contact_email</code>, <code>contact_phone_no</code> and <code>msg_body</code>, using the POST method.</p>
+<pre><code class="language-go">func generateRequestHandler() func(http.ResponseWriter, *http.Request) {
+
+    // ...
+
+    // Create our Auth object. The first parameter &quot;identity&quot; can be omitted
+    auth := smtp.PlainAuth(&quot;&quot;, username, app_pwd, auth_server)
+
+    return func (w http.ResponseWriter, r *http.Request) {
+        // Ensure we called using a POST method
+        if r.Method != &quot;POST&quot; {
+            w.WriteHeader(405)
+            return
+        }
+
+        // Parse the request form data into r.PostForm, which we'll retrieve using r.FormValue
+        if err := r.ParseForm(); err != nil {
+            logger.Error(err)
+            w.WriteHeader(500)
+            return
+        }
+
+        // Build message from form data
+        msg: = [] byte(fmt.Sprintf(&quot;Subject: Website Enquiry Form\r\n&quot; +
+            &quot;From: hugobde.dev\r\n&quot; +
+            &quot;To: %s\r\n\r\n&quot; + // The double CRLF marks the end of the headers and the start of the message body
+            &quot;Name: %s\r\n&quot; +
+            &quot;Contact Email: %s\r\n&quot; +
+            &quot;Contact Phone Number: %s\r\n\r\n&quot; +
+            &quot;Body: %s&quot;,
+            recipient,
+            r.FormValue(&quot;contact_name&quot;),
+            r.FormValue(&quot;contact_email&quot;),
+            r.FormValue(&quot;contact_phone_no&quot;),
+            r.FormValue(&quot;msg_body&quot;)))
+
+        // Send Email to myself
+        err := smtp.SendMail(sending_server, auth, sender, []string{recipient}, msg)
+
+        if err != nil {
+            logger.Error(err)
+            w.WriteHeader(500)
+            return
+        }
+    }
+}
+</code></pre>
+<p>And <em>voilà!</em> A slightly improved version of this source code can be found on <a href="https://github.com/HugoBde/msgme/blob/master/msgme.go">GitHub</a>. Now it's time to play with Docker.</p>
+        </div>
+    </main>
+</body>

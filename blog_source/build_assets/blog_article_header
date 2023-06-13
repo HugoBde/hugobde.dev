@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/public/stylesheets/blog.css" />
 
     <!-- Local Scripts -->
+    <script src="/public/scripts/blog.js" defer></script>
 
     <!-- Google Fonts CDN -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,7 +24,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 
     <!-- highlight.js -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <link rel="stylesheet" href="/public/stylesheets/hljs-theme.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/go.min.js"></script>
 
@@ -33,5 +34,39 @@
 </head>
 
 <body>
+    <!-- NAV BAR -->
+    <nav>
+        <div id="navbar">
+            <a href="/">
+                <h2>hugobde.dev</h2>
+            </a>
+            <img id="hamburger-menu" src="images/hamburger.svg" />
+            <div id="navbar-links">
+                <a href="#portfolio">
+                    Projects
+                </a>
+                <a href="#contact">
+                    Contacts
+                </a>
+                <a href="/blog">
+                    Blog
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="responsive-links" class="hidden">
+        <a href="#portfolio">
+            Projects
+        </a>
+        <a href="#contact">
+            Contacts
+        </a>
+        <a href="/blog">
+            Blog
+        </a>
+    </div>
+
+    <!-- MAIN CONTENT -->
     <main>
         <div>
