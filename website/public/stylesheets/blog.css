@@ -12,15 +12,25 @@ code {
     text-overflow: ellipsis;
 }
 
+
 /* Make inline code coloured but code blocks normal */
 code {
     font-weight: 500;
     color: burlywood;
 }
 
+p {
+    margin: 0.5em 0;
+}
+
 pre > code {
     font-weight: 400;
     color: black;
+}
+
+h3 {
+    margin-bottom: 0;
+    text-decoration: underline;
 }
 
 main h2 {

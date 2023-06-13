@@ -12,7 +12,7 @@ With my website consisting of a few static files at the time of hosting it, I ch
 ![Original set up diagram](https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png) 
 
 ### The plan
-Below you can see a simplistic representation of the system we will be implementing. Nginx receives POST requests to /contact_form and proxies them to an arbitrary port on which my microservice will be listening.
+Below you can see a simplistic representation of the system we will be implementing. Nginx receives POST requests to `/contact_form` and proxies them to an arbitrary port on which my microservice will be listening.
 
 ![msgme flowdiagram](https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png)
 

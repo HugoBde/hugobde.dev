@@ -40,7 +40,7 @@
             <a href="/">
                 <h2>hugobde.dev</h2>
             </a>
-            <img id="hamburger-menu" src="images/hamburger.svg" />
+            <img id="hamburger-menu" src="/images/hamburger.svg" />
             <div id="navbar-links">
                 <a href="#portfolio">
                     Projects
