@@ -16,7 +16,7 @@ Below you can see a simplistic representation of the system we will be implement
 
 ![msgme flowdiagram](https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png)
 
-For this project, I chose to use Go to implement my service because its standard library has plenty of support for network protocols - specifically the Simple Mail Transfer Protocol - and HTTP(S) server functionalities. In the end, we will be containerising our microservice to ~~flex our DevOps skills~~ simplify deployment, using Docker.
+For this project, I chose to use Go to implement my service because its standard library has plenty of support for network protocols - specifically the Simple Mail Transfer Protocol - and HTTP(S) server functionalities. In the end, we will be containerising our microservice to ~flex our DevOps skills~ simplify deployment, using Docker.
 
 ## Implementation
 
@@ -34,7 +34,7 @@ Next, let's add a library to your project: `godotenv` which will enable us to us
 $ go get github.com/joho/godotenv
 ```
 Now, let's create our `.env` file. If you are thinking of showing this project off on GitHub, make sure you add the `.env` file to your `.gitignore` so that you don't accidentally share your credentials with the whole world. Here's what the file should look like for the moment:
-```dotenv
+```
 PORT=3000
 ```
 We'll only specify which port to listen to for the moment as an example.
@@ -73,7 +73,7 @@ You can compile the code to make sure everything is fine, although it doesn't do
 This article will focus on sending an email using **Gmail**. Google requires app have an **"application password"** to connect to our email account. A guide on how to obtain an application password for your own app can be found [here](https://support.google.com/accounts/answer/185833?hl=en).
 
 Once you have acquired your oh-so-precious application password, time to a few variables to our `.env` file:
-```dotenv
+```
 AUTH_USERNAME=<your Gmail address associated with the app password>
 APPLICATION_PASSWORD=<your app password>
 AUTH_SERVER=smtp.gmail.com
@@ -167,7 +167,13 @@ func generateRequestHandler() func(http.ResponseWriter, *http.Request) {
         }
 
         // Build message from form data
-        msg := []byte(fmt.Sprintf("Subject: Website Enquiry Form\r\nFrom: hugobde.dev\r\nTo: %s\r\n\r\nName: %s\r\nContact Email: %s\r\nContact Phone Number: %s\r\n\r\nBody: %s",
+        msg: = [] byte(fmt.Sprintf("Subject: Website Enquiry Form\r\n" +
+            "From: hugobde.dev\r\n" +
+            "To: %s\r\n\r\n" + // The double CRLF marks the end of the headers and the start of the message body
+            "Name: %s\r\n" +
+            "Contact Email: %s\r\n" +
+            "Contact Phone Number: %s\r\n\r\n" +
+            "Body: %s",
             recipient,
             r.FormValue("contact_name"),
             r.FormValue("contact_email"),
@@ -185,4 +191,4 @@ func generateRequestHandler() func(http.ResponseWriter, *http.Request) {
     }
 }
 ```
-And *voilà*! A slightly improved version of this source code can be found on [GitHub](https://github.com/HugoBde/msgme/blob/master/msgme.go). Now it's time to play with Docker.
+And *voilà!* A slightly improved version of this source code can be found on [GitHub](https://github.com/HugoBde/msgme/blob/master/msgme.go). Now it's time to play with Docker.
