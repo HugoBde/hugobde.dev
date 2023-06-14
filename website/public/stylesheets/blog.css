@@ -6,12 +6,11 @@ pre {
 }
 
 code {
-    font-family: 'Roboto Mono', monospace !important;
+    font-family: 'Roboto Mono', monospace;
     font-size: smaller;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
 
 /* Make inline code coloured but code blocks normal */
 code {
@@ -39,6 +38,6 @@ main h2 {
 }
 
 main img {
-    margin: auto;
     display: block;
+    margin: auto;
 }
