@@ -45,26 +45,26 @@ Finally, create a **Go** file in your favourite text editor or IDE and add some 
 package main
 
 import (
-	"log"
-	"net/http"
-	"os"
+    "log"
+    "net/http"
+    "os"
 
-	"github.com/joho/godotenv"
+    "github.com/joho/godotenv"
 )
 
 func main() {
-	if err := godotenv.Load(); err != nil {
-		log.Fatalf("Failed to load .env file: %s", err)
-	}
+    if err := godotenv.Load(); err != nil {
+        log.Fatalf("Failed to load .env file: %s", err)
+    }
 
-	var valid bool
-	var port_num string
+    var valid bool
+    var port_num string
 
-	if port_num, valid = os.LookupEnv("PORT"); !valid {
-		log.Fatal("Missing PORT environment variable")
-	}
+    if port_num, valid = os.LookupEnv("PORT"); !valid {
+        log.Fatal("Missing PORT environment variable")
+    }
 
-	log.Fatal(http.ListenAndServe(":"+port_num, nil))
+    log.Fatal(http.ListenAndServe(":"+port_num, nil))
 }
 ```
 You can compile the code to make sure everything is fine, although it doesn't do much yet.
