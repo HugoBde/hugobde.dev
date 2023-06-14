@@ -13,6 +13,7 @@
 
     <!-- Local Scripts -->
     <script src="/public/scripts/blog.js" defer></script>
+    <script src="/public/scripts/navbar.js" defer></script>
 
     <!-- Google Fonts CDN -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,12 +43,6 @@
             </a>
             <img id="hamburger-menu" src="/images/hamburger.svg" />
             <div id="navbar-links">
-                <a href="#portfolio">
-                    Projects
-                </a>
-                <a href="#contact">
-                    Contacts
-                </a>
                 <a href="/blog">
                     Blog
                 </a>
@@ -56,12 +51,6 @@
     </nav>
 
     <div id="responsive-links" class="hidden">
-        <a href="#portfolio">
-            Projects
-        </a>
-        <a href="#contact">
-            Contacts
-        </a>
         <a href="/blog">
             Blog
         </a>
