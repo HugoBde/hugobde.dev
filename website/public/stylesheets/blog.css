@@ -37,3 +37,8 @@ main h2 {
     border-bottom: 2px solid black;
     margin-bottom: 0;
 }
+
+main img {
+    margin: auto;
+    display: block;
+}
