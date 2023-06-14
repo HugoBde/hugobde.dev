@@ -1,14 +1,14 @@
 pre {
     padding: 12px;
     background-color: whitesmoke;
-    overflow: hidden;
+    overflow: scroll;
     text-overflow: ellipsis;
 }
 
 code {
     font-family: 'Roboto Mono', monospace;
     font-size: smaller;
-    overflow: hidden;
+    overflow: scroll;
     text-overflow: ellipsis;
 }
 
@@ -40,4 +40,11 @@ main h2 {
 main img {
     display: block;
     margin: auto;
+}
+
+
+@media screen and (max-width: 600px) {
+    main img {
+        width: 100%;
+    }
 }
