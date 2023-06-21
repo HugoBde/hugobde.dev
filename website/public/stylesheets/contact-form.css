@@ -42,6 +42,7 @@
 #contact-form >textarea {
     resize:vertical;
     height: 100%;
+    font-family: 'Zen Old Mincho', serif;
 }
 
 #submit {

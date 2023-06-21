@@ -12,6 +12,9 @@ const ROTATED_DOWN = "rotate(0.5turn)";
 let form_is_opened = false;
 
 function toggle_form() {
+    if (window.matchMedia("(max-width: 600px)").matches) {
+        contact_form.scrollIntoView();
+    }
     contact_form.style.bottom = form_is_opened ? DOWN_POSITION : UP_POSITION;
     open_close_btn.style.transform = form_is_opened ? ROTATED_UP : ROTATED_DOWN;
     form_is_opened = ~form_is_opened;
