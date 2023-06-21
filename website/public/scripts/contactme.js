@@ -3,7 +3,7 @@ const open_close_btn = document.getElementById("open-close-button");
 const contact_header = document.getElementById("contact-header");
 const submit_btn = document.getElementById("submit");
 
-const DOWN_POSITION = "-230px";
+const DOWN_POSITION = "-250px";
 const UP_POSITION = "10px";
 
 const ROTATED_UP = "rotate(0)";
