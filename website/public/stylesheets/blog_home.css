@@ -1,0 +1,47 @@
+.article-list {
+    display: flex;
+    flex-flow: row wrap;
+    width: 80%;
+}
+
+.article-card {
+    height: 300px;
+    width: 300px;
+    box-sizing: border-box;
+
+    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.article-card>a {
+    text-decoration: none;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.article-card:hover {
+    cursor: pointer;
+    box-shadow: 3px 3px 10px black;
+}
+
+.article-title {
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+
+.article-pub-date {
+    font-size: 0.8em;
+    color: #303030;
+}
+
+@media screen and (max-width: 600px) {
+    .article-list {
+        width: 90%;
+    }
+}

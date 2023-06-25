@@ -1,10 +1,63 @@
+/* Article header */
+.article-title {
+    border-bottom: 2px solid black;
+    margin-top: 1rem;
+    margin-bottom: 0;
+}
+
+.article-infos {
+    font-size: 0.8em;
+    color: #303030;
+}
+
+/* Content styling */
+main>div {
+    padding: 0em 1em;
+}
+
+main h3 {
+    text-decoration: underline;
+    margin-bottom: 0;
+}
+
+main h2 {
+    border-bottom: 2px solid black;
+    margin-bottom: 0;
+}
+
+main img {
+    display: block;
+    margin: auto;
+    max-width: 100%;
+}
+
+/* Code styling */
+pre {
+    padding: 12px;
+    background-color: whitesmoke;
+    overflow: scroll;
+    text-overflow: ellipsis;
+}
+
+code {
+    font-family: 'Roboto Mono', monospace;
+    font-size: smaller;
+    overflow: scroll;
+    text-overflow: ellipsis;
+    font-weight: 500;
+    color: burlywood;
+}
+
+pre>code {
+    font-weight: 400;
+    color: black;
+}
 pre code.hljs {
     display: block;
-    padding: 1em
 }
 
 code.hljs {
-    padding: 3px 5px
+    padding: 3px;
 }
 
 .hljs {
@@ -64,7 +117,6 @@ code.hljs {
 }
 
 @media screen and (-ms-high-contrast:active) {
-
     .hljs-addition,
     .hljs-attribute,
     .hljs-built_in,

@@ -1,0 +1,230 @@
+.section-title {
+    border-bottom: 2px solid black;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+/* summary section */
+.summary-body {
+    margin: 0 1em;
+    font-size: 1.25em;
+}
+
+.summary-body>a:hover {
+    text-decoration: underline;
+}
+
+/* portfolio section */
+.portfolio-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding: 0 1em;
+}
+
+.portfolio-entry a {
+    text-decoration: none;
+}
+
+.portfolio-name {
+    margin:0;
+}
+
+.portfolio-description {
+    margin: 0;
+}
+
+.portfolio-entry img {
+    width: 100%;
+    max-width: 100%;
+}
+
+.portfolio-entry figure {
+    margin: 1em 1em 0;
+    border: 2px solid black;
+    padding: 1em;
+    box-sizing: border-box;
+    max-width: 100%;
+    flex-basis: 45%;
+    flex-grow: 1;
+}
+
+.portfolio-entry figcaption {
+    font-size: 0.75em;
+}
+
+.portfolio-gifs {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+}
+
+/* contac section */
+#contact-list>div {
+    margin: 1em 1em 0 1em;
+}
+
+#contact-list a {
+    text-decoration: none;
+}
+
+#contact-list a:hover {
+    text-decoration: underline;
+}
+
+#contact-form {
+    background-color: white;
+    border: 2px black solid;
+    position: fixed;
+    right: 15px;
+    bottom: -350px;
+    width: 300px;
+    /* height: 350px; */
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0.35rem 1rem 1rem;
+    transition: 0.4s bottom ease-in-out;
+    box-shadow: 3px 3px 6px black;
+}
+
+#contact-header {
+    margin: 0;
+    display: flex;
+    border-bottom: 2px solid black;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#contact-header>* {
+    margin: 0;
+}
+
+#contact-header>img {
+    height: 36px;
+    transition: 0.4s transform ease-in-out;
+    cursor: pointer;
+}
+
+#contact-form>textarea,
+#contact-form>input,
+#contact-form>button {
+    border: 2px black solid;
+    margin: 1rem 0 0;
+}
+
+#contact-form>textarea {
+    resize: vertical;
+    height: 100%;
+    font-family: 'Zen Old Mincho', serif;
+}
+
+#submit {
+    background-color: white;
+    cursor: pointer;
+    font-size: 1em;
+    border: 2px solid black;
+    transition: background-color 0.5s cubic-bezier(.77, 0, 0.18, 1), color 0.5s cubic-bezier(.77, 0, 0.18, 1), box-shadow 0.2s;
+}
+
+#submit:hover {
+    box-shadow: 0 0 5px black;
+}
+
+.sending {
+    background-color: black !important;
+    color: white;
+}
+
+/* responsive contact form */
+@media screen and (max-width: 600px) {
+    #contact-form {
+        z-index: unset;
+        position: inherit;
+        box-shadow: unset;
+        margin: 1em;
+        width: 80%;
+    }
+
+    #open-close-button {
+        display: none;
+    }
+}
+
+/* Force the input text area to use the font */
+input {
+    font-family: 'Zen Old Mincho', serif;
+}
+
+/* Modal, modal content and modal animation */
+#modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+}
+
+#modalBody {
+    text-align: center;
+    border: 2px solid black;
+    padding: 1em;
+}
+
+#modalCard {
+    padding: 0.75em;
+    background: white;
+    box-shadow: 0 0 15px 0 black;
+}
+
+#modalBody img {
+    max-width: 75vw;
+    max-height: 75vh;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.modalFadeIn {
+    animation-name: fadeIn;
+    animation-duration: 0.75s;
+    animation-timing-function: ease-in-out;
+}
+
+.modalFadeOut {
+    animation-name: fadeIn;
+    animation-duration: 0.75s;
+    animation-direction: reverse;
+    animation-timing-function: ease-in-out;
+}
+
+#wip {
+    border: 2px solid black;
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+
+#modal figure {
+    margin: 1em;
+}
+
+#modal figcaption {
+    text-align: center;
+    font-size: 0.75em;
+    margin-top: 0 !important;
+}

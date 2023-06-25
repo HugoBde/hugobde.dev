@@ -9,11 +9,7 @@
 
     <!-- Local CSS -->
     <link rel="stylesheet" href="/public/stylesheets/style.css" />
-    <link rel="stylesheet" href="/public/stylesheets/summary.css" />
-    <link rel="stylesheet" href="/public/stylesheets/portfolio.css" />
-    <link rel="stylesheet" href="/public/stylesheets/contacts.css" />
-    <link rel="stylesheet" href="/public/stylesheets/contact-form.css" />
-    <link rel="stylesheet" href="/public/stylesheets/modal.css" />
+    <link rel="stylesheet" href="/public/stylesheets/home.css" />
 
     <!-- Local Scripts -->
     <script src="/public/scripts/modal.js" defer></script>
@@ -30,7 +26,8 @@
 
     <!-- MISC-->
     <title>HugoBde</title>
-    <meta name="description" content="My portfolio and blog about all things programming, cloud and DevOps engineering.">
+    <meta name="description"
+        content="My portfolio and blog about all things programming, cloud and DevOps engineering.">
 </head>
 
 <body>
@@ -70,66 +67,72 @@
     <!-- MAIN CONTENT -->
     <main>
         <div id="summary">
-            <h1 class="section-header">Who am I?</h1>
-            <p>
-                I am a software developer and software engineering student at the University of Technology Sydney, interested about all things programming, cloud and DevOps engineering.<br>Want to get in touch? Contact me <a style="cursor: pointer" onClick="toggle_form()"><b>here</b></a>
+            <h1 class="section-title">Who am I?</h1>
+            <p class="summary-body">
+                I am a software developer and software engineering student at the University of Technology Sydney,
+                interested in all things programming, cloud and DevOps engineering.<br>Want to get in touch? Contact me
+                <a style="cursor: pointer" onClick="toggle_form()"><b>here</b></a>
             </p>
         </div>
         <div id="portfolio">
-            <h1 class="section-header">Projects</h1>
-            <div class="portfolio-entry">
-                <a href="https://github.com/HugoBde/msgme" target="_blank">
-                    <h2 class="portfolio-name">Msgme</h2>
-                    <h5 class="portfolio-description">A Go microservice to power the contact form at the bottom of your screen</h5>
-                </a>
-            </div>
-            <div class="portfolio-entry">
-                <a href="https://github.com/HugoBde/blog_bob" target="_blank">
-                    <h2 class="portfolio-name">Blog Bob</h2>
-                    <h5 class="portfolio-description">A performance-focused C++ microservice in charge of building blog pages from Markdown source in sub-millisecond time</h5>
-                </a>
-            </div>
-            <div class="portfolio-entry">
-                <a href="https://github.com/HugoBde/chip8-emulator" target="_blank">
-                    <h2 class="portfolio-name">CHIP-8 Emulator</h2>
-                    <h5 class="portfolio-description">CHIP-8 emulator made in Rust</h5>
-                    <div class="portfolio-gifs">
-                        <figure>
-                            <img src="/images/portfolio/chip-8-emulator/test_chip8.gif" />
-                            <figcaption>Fig. 1 corax89's CHIP-8 test ROM</figcaption>
-                        </figure>
-                        <figure>
-                            <img src="/images/portfolio/chip-8-emulator/zero.gif" />
-                            <figcaption>Fig. 2 zeroShadow's demo ROM</figcaption>
-                        </figure>
-                    </div>
-                </a>
-            </div>
-            <div class="portfolio-entry">
-                <a href="https://github.com/HugoBde/owert" target="_blank">
-                    <h2 class="portfolio-name">Owert</h2>
-                    <h5 class="portfolio-description">Ray tracer made in Go based on <a
-                            href="https://raytracing.github.io/books/RayTracingInOneWeekend.html"><u>Peter Shirley's
-                                book</u></a></h5>
-                    <div class="portfolio-gifs">
-                        <figure>
-                            <img src="/images/portfolio/owert/live_render.gif" />
-                            <figcaption>
-                                Fig. 1 Live rendering of a scene with SDL2
-                            </figcaption>
-                        </figure>
-                    </div>
-                </a>
-            </div>
-            <div class="portfolio-entry">
-                <a href="https://github.com/HugoBde/kolod" target="_blank">
-                    <h2 class="portfolio-name">Kolod</h2>
-                    <h5 class="portfolio-description">Work in progress Gameboy Advance Emulator in Rust</h5>
-                </a>
+            <h1 class="section-title">Projects</h1>
+            <div class="portfolio-entries">
+                <div class="portfolio-entry">
+                    <a href="https://github.com/HugoBde/msgme" target="_blank">
+                        <h2 class="portfolio-name">Msgme</h2>
+                        <p class="portfolio-description">A Go microservice to power the contact form at the bottom of
+                            your screen</p>
+                    </a>
+                </div>
+                <div class="portfolio-entry">
+                    <a href="https://github.com/HugoBde/blog_bob" target="_blank">
+                        <h2 class="portfolio-name">Blog Bob</h2>
+                        <p class="portfolio-description">A performance-focused C++ microservice in charge of building
+                            blog pages from Markdown source in sub-millisecond time</p>
+                    </a>
+                </div>
+                <div class="portfolio-entry">
+                    <a href="https://github.com/HugoBde/chip8-emulator" target="_blank">
+                        <h2 class="portfolio-name">CHIP-8 Emulator</h2>
+                        <p class="portfolio-description">CHIP-8 emulator made in Rust</p>
+                        <div class="portfolio-gifs">
+                            <figure>
+                                <img src="/images/portfolio/chip-8-emulator/test_chip8.gif" />
+                                <figcaption>Fig. 1 corax89's CHIP-8 test ROM</figcaption>
+                            </figure>
+                            <figure>
+                                <img src="/images/portfolio/chip-8-emulator/zero.gif" />
+                                <figcaption>Fig. 2 zeroShadow's demo ROM</figcaption>
+                            </figure>
+                        </div>
+                    </a>
+                </div>
+                <div class="portfolio-entry">
+                    <a href="https://github.com/HugoBde/owert" target="_blank">
+                        <h2 class="portfolio-name">Owert</h2>
+                        <p class="portfolio-description">Ray tracer made in Go based on <a
+                                href="https://raytracing.github.io/books/RayTracingInOneWeekend.html"><u>Peter Shirley's
+                                    book</u></a></p>
+                        <div class="portfolio-gifs">
+                            <figure>
+                                <img src="/images/portfolio/owert/live_render.gif" />
+                                <figcaption>
+                                    Fig. 1 Live rendering of a scene with SDL2
+                                </figcaption>
+                            </figure>
+                        </div>
+                    </a>
+                </div>
+                <div class="portfolio-entry">
+                    <a href="https://github.com/HugoBde/kolod" target="_blank">
+                        <h2 class="portfolio-name">Kolod</h2>
+                        <p class="portfolio-description">Work in progress Gameboy Advance Emulator in Rust</p>
+                    </a>
+                </div>
             </div>
         </div>
         <div id="education">
-            <h1 class="section-header">Education</h1>
+            <h1 class="section-title">Education</h1>
             <ul>
                 <li>
                     <h2>Bachelor of Engineering (Honours)</h2>
@@ -140,7 +143,7 @@
             </ul>
         </div>
         <div id="contact">
-            <h1 class="section-header">Contact</h1>
+            <h1 class="section-title">Contact</h1>
             <div id="contact-list">
                 <div>
                     <i class="bi bi-github"></i>
@@ -181,17 +184,18 @@
     <div id="modal">
         <div id="modalCard">
             <div id="modalBody">
-            <!-- <figure>
+                <!-- <figure>
                 <img id="wip" src="/images/hardhat.png">
                 <figcaption>
                     Fig. 1 Personal protective equipment
                 </figcaption>
             </figure> -->
-            <h1>Work in progress...</h1>
-            <p>
-                Website is under construction<br>
-                <span onclick="closeModal()" style="cursor: pointer; text-decoration: underline;">Access anyway</span><br>
-            </p>
+                <h1>Work in progress...</h1>
+                <p>
+                    Website is under construction<br>
+                    <span onclick="closeModal()" style="cursor: pointer; text-decoration: underline;">Access
+                        anyway</span><br>
+                </p>
             </div>
         </div>
     </div>
