@@ -1,47 +1,44 @@
 # Powering a contact form with Go and Docker
 ## Intro
-The first version of my website was originally published using GitHub pages. While it was a convenient way of creating a simple portfolio website, I quickly felt the need for additional features. The most important requirement was without a doubt providing a simple way to reach out to me to share an idea or enquire about something.
+The first version of my portfolio was originally published with GitHub pages as it was a convenient way of creating a static website. However, I wanted to give users a way of reaching out to me, whether it was to share an idea or to offer me a 6 figure salary.
 
-The simplest solution would have been to use a `mailto:` link, but I was not comfortable with the idea of having my email address out there, waiting to be scraped by a web crawler. At the time, I eventually managed to come up with a cloud based solution using AWS API Gateway and AWS Simple Email Service. However, after my AWS Free Tier subscription expired, I was forced to take down my beloved contact form.
+The simplest solution would have been to use a `mailto:`, but I was not comfortable with the idea of having my email address out there, waiting to be scraped by a web crawler. Instead, I created a fancy contact form back with a cloud-based solution using AWS API Gateway and AWS Simple Email Service. Unfortunately, my AWS Free Tier subscription ended up expiring and I was forced to take down my beloved contact form.
 
-Recently, I decided to break the bank and have my website hosted a dedicated server, meaning that I now had access to a backend which could safely send enquiries to my email inbox. The present blog post describes how I implemented this solution.
+After recently acquiring a Raspberry Pi, I decided to host my website at home, in order to learn more about networking, systems operations, deployment processes, etc... Since I now had a backend for my website, I could create a service to process form submissions and send them to my email.
 
-### Original setup
-With my website consisting of a few static files at the time of hosting it, I chose to use Nginx as a simple drop-in solution. With very little configuration to do, I was up and running in no time, and had the routing requests to future backend services using the reverse-proxy functionality.
-
-![Original set up diagram](https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png) 
-
-### The plan
-Below you can see a simplistic representation of the system we will be implementing. Nginx receives POST requests to `/contact_form` and proxies them to an arbitrary port on which my microservice will be listening.
+## The Plan
+With my portfolio only consisting of a few static files, I used Nginx as a simple drop-in solution that had me up and running in no time, while also giving me the ability to route requests to future backend services, including the one we are about to implement. My plan is to have Nginx receive POST requests to `/contact_form` and proxy them to an arbitrary port on which my microservice will be listening.
 
 ![msgme flowdiagram](https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png)
 
-For this project, I chose to use Go to implement my service because its standard library has plenty of support for network protocols - specifically the Simple Mail Transfer Protocol - and HTTP(S) server functionalities. In the end, we will be containerising our microservice to ~flex our DevOps skills~ simplify deployment, using Docker.
+I decided to go with Go to implement my microservice because its standard library has easy to use HTTP server functionalities and plenty of support for network protocols - specifically the Simple Mail Transfer Protocol which we'll use later. In the end, we will be containerising our microservice to ~~flex our DevOps skills~ simplify deployment, using Docker.
 
 ## Implementation
-
 ### Set up
 Enough talking, time to get coding! Let's create our project: 
 ```sh
-$ mkdir msmge_uservice
-$ cd msgme_uservice
+$ mkdir msmge
+$ cd msgme
 $ go mod init <module path>
 ```
-Here, I called my project `msgme_uservice` but you can pick any name. Also note that if you are creating your project in the GOPATH, you can omit the module path. Otherwise, you probably will want to use the address of the repository storing your module for good measure.
 
-Next, let's add a library to your project: `godotenv` which will enable us to use a `.env` file to store our credentials and other stuff.
+Here, I called my project `msgme` but you can pick any name. Also note that if you are creating your project in the GOPATH, you can omit the module path. Otherwise, you probably will want to use the address of the repository storing your module for good measure.
+
+Next, let's add a library to our project: `godotenv`. It will enable us to use a `.env` file to store our parameters and credentials.
 ```sh
 $ go get github.com/joho/godotenv
 ```
-Now, let's create our `.env` file. If you are thinking of showing this project off on GitHub, make sure you add the `.env` file to your `.gitignore` so that you don't accidentally share your credentials with the whole world. Here's what the file should look like for the moment:
+
+If you are thinking of committing this project to your own GitHub, make sure you add the `.env` file to your `.gitignore` so that you don't accidentally share your credentials with the whole world (yes I've already done it...). Now create the `.env` file write the following to it:
 ```ini
 PORT=3000
 ```
 We'll only specify which port to listen to for the moment as an example.
 
-Finally, create a **Go** file in your favourite text editor or IDE and add some boilerplate code:
+Ok, now we can create a **Go** file in our favourite text editor or IDE. Let's load our `.env` file and start a server on the specified port:
 ```go
-//msgme.go
+// msgme.go
+
 package main
 
 import (
@@ -67,12 +64,12 @@ func main() {
     log.Fatal(http.ListenAndServe(":"+port_num, nil))
 }
 ```
-You can compile the code to make sure everything is fine, although it doesn't do much yet.
+You can run your code with `go run` to make sure that it compiles properly and that it is completely useless.
 
 ### Sending an email
-This article will focus on sending an email using **Gmail**. Google requires app have an **"application password"** to connect to our email account. A guide on how to obtain an application password for your own app can be found [here](https://support.google.com/accounts/answer/185833?hl=en).
+In this article I'll focus on sending an email using **Gmail**. Google requires untrusted apps to have an **"application password"** to get access to our email account. A guide on how to obtain an application password for your own app can be found [here](https://support.google.com/accounts/answer/185833?hl=en).
 
-Once you have acquired your *oh-so-precious* application password, time to a few variables to our `.env` file:
+Once you have acquired your *oh-so-precious* application password, it's time to add a few variables to our `.env` file:
 ```ini
 AUTH_USERNAME=<your Gmail address associated with the app password>
 APPLICATION_PASSWORD=<your app password>
@@ -81,11 +78,15 @@ SENDER=<the sending email address>
 RECIPIENT=<the email address to send the message to>
 SENDING_SERVER=smtp.gmail.com:587
 ```
-Note that `AUTH_USERNAME` and `SENDER` will be the same in all use cases from what I know, but I separated them just in case.
+Note that `AUTH_USERNAME` and `SENDER` will most likely be the same in all use cases as far as I know, but I separated them just in case.
 
-Now, let's create a function to handle our request. The method we will use to send emails using the SMTP implementation from the Go standard library requires us to create an `Auth` object. We can avoid creating a new object for every request by taking advantage of Go's **function closures** as below:
+Now, we'll create a function to handle requests to our service. The SMTP implementation in the Go standard library uses a `PlainAuth` object to store credentials to pass with the request to the email service provider. Since I expected my service to receive upwards of 10,000 requests per minute, I used a **function closure** to avoid creating a new `PlainAuth` object on the heap for each request.
+
+> The Garbage Collector is the devil - Hugo Bde
+
+Here's the code to create our request handler:
 ```go
-//msgme.go
+// msgme.go
 
 //...
 
@@ -142,9 +143,12 @@ func main() {
 }
 ```
 
-Now, let's focus on the request handling code itself. For this example, the request handler is called when submitting a form with 4 fields, `contact_name`, `contact_email`, `contact_phone_no` and `msg_body`, using the POST method.
-
+Now, let's focus on the request handling code itself. In my case, the contact form has 4 fields, `contact_name`, `contact_email`, `contact_phone_no` and `msg_body`. Here's how we extract them from the request body and send them in an email:
 ```go
+// msgme.go
+
+// ...
+
 func generateRequestHandler() func(http.ResponseWriter, *http.Request) {
 
     // ...
@@ -153,7 +157,7 @@ func generateRequestHandler() func(http.ResponseWriter, *http.Request) {
     auth := smtp.PlainAuth("", username, app_pwd, auth_server)
 
     return func (w http.ResponseWriter, r *http.Request) {
-        // Ensure we called using a POST method
+        // Ensure we were called using a POST method
         if r.Method != "POST" {
             w.WriteHeader(405)
             return
@@ -191,4 +195,60 @@ func generateRequestHandler() func(http.ResponseWriter, *http.Request) {
     }
 }
 ```
-And *voilà!* A slightly improved version of this source code can be found on [GitHub](https://github.com/HugoBde/msgme/blob/master/msgme.go). Now it's time to play with Docker.
+And *voilà!*, our code is ready to hit production without any form of testing whatsoever. All we need to do now is containerise our service with Docker.
+
+## Containerisation
+### First try
+Create a file called `Dockerfile` in your project root folder and add this to it:
+```dockerfile
+FROM golang
+WORKDIR /msgme
+COPY go.mod go.sum .
+RUN go mod download
+COPY msgme.go .
+RUN go build -o msgme .
+COPY .env .
+EXPOSE <the port you specified in your .env file>
+CMD ["./msgme"]
+```
+We can build the docker image with `docker build -t msgme .`. While we wait for the process to complete, I want to bring your attention to the order of the commands in our `Dockerfile`. You'll notice that we don't copy all the files at the start and instead copy them as they are needed throughout the build process. We do this to leverage Docker's layer caching: if Docker notices that our `msgme.go` file has not changed since the last cached image build, it won't bother running `go build` again. However, if we had copied all the files at once, a change to our `.env` config would have caused Docker to compile our code again for no reason. As a general rule of thumb, try to copy the files least likely to change first and vice-versa.
+
+Now that the build is complete, I want you to run `docker image ls` to have a look at the size the image created:
+```
+REPOSITORY   TAG       IMAGE ID       CREATED          SIZE
+msgme        latest    d23a3b74a812   14 minutes ago   942MB
+```
+942MB. That's a lot of storage for such a simple service. Let's see if we can reduce that image size a little.
+
+### Multi-stage build to the rescue
+The reason the image we just built takes up so much space is because it contains a full operating system, as well as the whole Go toolchain. Using a multi-stage build, we can compile our code in a first image, before copying our executable to a more minimalist base image like `scratch` (completely empty) or `alpine` (super-lightweight OS). Let's take things to the extreme and create our final image from `scratch`.
+```dockerfile
+# Builder image
+FROM golang:1.20 AS BUILDER
+WORKDIR /app
+COPY go.mod go.sum .
+RUN go mod download
+COPY msgme.go .
+RUN CGO_ENABLED=0 go build -o msgme .
+
+# App image
+FROM scratch
+WORKDIR /
+COPY .env .
+COPY --from=BUILDER /app/msgme .
+EXPOSE <the port you specified in your .env file>
+CMD ["/msgme"]
+```
+Let me take you through this build process. We start with the same image as before, but this time we'll give this image an alias `BUILDER` which we'll use to refer to it later. The next notable difference is this `CGO_ENABLED=0` statement when compiling our code. By default, the Go compiler links our code against the standard C library, usually `glibc`. However, since we decided to use the `scratch` image, `glibc` will not be available when we try to run our program, thus we tell the compiler to **statically link** our code by setting the `CGO_ENABLED` environment variable to 0.
+
+After compiling the code, we create a new image, this time starting from `scratch`, and we tell go to look in our `BUILDER` image to copy our freshly built executable using `COPY --from=BUILDER ...`.
+
+Build your image and check its size again to see how much space we managed to save:
+```
+REPOSITORY   TAG       IMAGE ID       CREATED          SIZE
+msgme        latest    26c9fc7bfc5d   3 minutes ago    7.65MB
+```
+From 942MB to 7.65MB, not bad at all! Just keep in mind that if you run into issues with the `scratch` image and try to debug the final image, you won't even have a shell or any utilities to analyse the content of the container. I recommend you use the `alpine` image instead, as it only adds about 7MB to the final image size.
+
+## Conclusion
+This project was a nice introduction to the deployment of Go applications with the help of Docker and ways to optimise the image build process. I hope this article was helpful to you, if you have any comments you can keep them for yourself because I haven't implemented a comment section yet. Make sure to check back in the next few weeks if you'd like to read more about the infrastructure I implemented to build this blog.
