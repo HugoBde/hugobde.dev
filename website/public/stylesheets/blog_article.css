@@ -29,6 +29,9 @@ main img {
     display: block;
     margin: auto;
     max-width: 100%;
+    border: 2px solid black;
+    padding: 0.5em;
+    box-sizing: border-box;
 }
 
 /* Code styling */
