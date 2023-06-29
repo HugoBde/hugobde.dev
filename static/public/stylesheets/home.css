@@ -127,6 +127,8 @@
     font-size: 1em;
     border: 2px solid black;
     transition: background-color 0.5s cubic-bezier(.77, 0, 0.18, 1), color 0.5s cubic-bezier(.77, 0, 0.18, 1), box-shadow 0.2s;
+    /* Specify font on the submit button again because it's somehow set to DejaVu Sans if we don't */
+    font-family: 'Zen Old Mincho', 'serif';
 }
 
 #submit:hover {

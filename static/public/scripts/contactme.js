@@ -46,7 +46,7 @@ async function submit_form(event) {
     let url_encoded_data = form_pairs.join("&").replace(/%20/g, "+");
 
     /* Send data */
-    let req = new Request("https://hugobde.dev/contact_form", {
+    let req = new Request("/contact_form", {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
